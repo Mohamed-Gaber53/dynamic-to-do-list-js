@@ -3,45 +3,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    function addTask() {
-        const taskText = taskInput.value.trim();
+    // تحميل المهام من Local Storage
+    function loadTasks() {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        storedTasks.forEach(taskText => addTask(taskText, false));
+    }
+
+    // إضافة مهمة جديدة
+    function addTask(taskTextParam, save = true) {
+        const taskText = taskTextParam !== undefined ? taskTextParam : taskInput.value.trim();
 
         if (taskText === "") {
             alert("Please enter a task!");
             return;
         }
 
-        // إنشاء عنصر li
         const li = document.createElement('li');
         li.textContent = taskText;
 
-        // إنشاء زر الحذف
         const removeBtn = document.createElement('button');
         removeBtn.textContent = "Remove";
-        removeBtn.className = 'remove-btn'; // بدون classList.add
+        removeBtn.className = 'remove-btn';
 
-        // حذف العنصر عند الضغط
         removeBtn.onclick = function () {
             taskList.removeChild(li);
+            removeFromLocalStorage(taskText);
         };
 
-        // إضافة الزر إلى العنصر
         li.appendChild(removeBtn);
-
-        // إضافة العنصر للقائمة
         taskList.appendChild(li);
 
-        // مسح الإدخال
+        if (save) {
+            saveToLocalStorage(taskText);
+        }
+
         taskInput.value = "";
     }
 
-    // الضغط على الزر
-    addButton.addEventListener('click', addTask);
+    // حفظ مهمة في Local Storage
+    function saveToLocalStorage(taskText) {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        storedTasks.push(taskText);
+        localStorage.setItem('tasks', JSON.stringify(storedTasks));
+    }
 
-    // الضغط على Enter
+    // حذف مهمة من Local Storage
+    function removeFromLocalStorage(taskText) {
+        let storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        storedTasks = storedTasks.filter(task => task !== taskText);
+        localStorage.setItem('tasks', JSON.stringify(storedTasks));
+    }
+
+    // الأحداث
+    addButton.addEventListener('click', () => addTask());
     taskInput.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
             addTask();
         }
     });
+
+    // تحميل المهام عند فتح الصفحة
+    loadTasks();
 });
