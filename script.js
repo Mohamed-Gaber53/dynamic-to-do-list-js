@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('task-list');
 
     function addTask() {
-        const taskText = taskInput.value.trim(); // أخذ النص وإزالة الفراغات
+        const taskText = taskInput.value.trim(); // إزالة الفراغات
 
         if (taskText === "") {
             alert("Please enter a task!");
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         removeBtn.textContent = "Remove";
         removeBtn.className = 'remove-btn';
 
-        removeBtn.onclick = function () {
+        removeBtn.onclick = () => {
             taskList.removeChild(li);
         };
 
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addButton.addEventListener('click', addTask);
 
-    taskInput.addEventListener('keypress', function (event) {
+    taskInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
             addTask();
         }
