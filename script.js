@@ -1,48 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1️⃣ تحديد عناصر الصفحة
     const addButton = document.getElementById('add-task-btn');
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    // 2️⃣ دالة إضافة مهمة
     function addTask() {
-        const taskText = taskInput.value.trim(); // إزالة المسافات من البداية والنهاية
+        const taskText = taskInput.value.trim();
 
-        // التحقق إذا كان الإدخال فارغ
         if (taskText === "") {
             alert("Please enter a task!");
             return;
         }
 
-        // إنشاء عنصر <li> للنص
+        // إنشاء عنصر li
         const li = document.createElement('li');
         li.textContent = taskText;
 
         // إنشاء زر الحذف
         const removeBtn = document.createElement('button');
         removeBtn.textContent = "Remove";
-        removeBtn.className = 'remove-btn';
+        removeBtn.className = 'remove-btn'; // بدون classList.add
 
-        // حدث الحذف عند الضغط على الزر
-        removeBtn.onclick = () => {
+        // حذف العنصر عند الضغط
+        removeBtn.onclick = function () {
             taskList.removeChild(li);
         };
 
-        // دمج الزر مع عنصر li
+        // إضافة الزر إلى العنصر
         li.appendChild(removeBtn);
 
-        // إضافة li للقائمة
+        // إضافة العنصر للقائمة
         taskList.appendChild(li);
 
-        // مسح حقل الإدخال
+        // مسح الإدخال
         taskInput.value = "";
     }
 
-    // 3️⃣ إضافة المهمة عند الضغط على الزر
+    // الضغط على الزر
     addButton.addEventListener('click', addTask);
 
-    // 4️⃣ إضافة المهمة عند الضغط على Enter
-    taskInput.addEventListener('keypress', (event) => {
+    // الضغط على Enter
+    taskInput.addEventListener('keypress', function (event) {
         if (event.key === 'Enter') {
             addTask();
         }
