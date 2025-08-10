@@ -11,34 +11,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // إضافة مهمة جديدة
     function addTask(taskTextParam, save = true) {
-        const taskText = taskTextParam !== undefined ? taskTextParam : taskInput.value.trim();
+    const taskText = taskTextParam !== undefined ? taskTextParam : taskInput.value.trim();
 
-        if (taskText === "") {
-            alert("Please enter a task!");
-            return;
-        }
-
-        const li = document.createElement('li');
-        li.textContent = taskText;
-
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = "Remove";
-        removeBtn.className = 'remove-btn';
-
-        removeBtn.onclick = function () {
-            taskList.removeChild(li);
-            removeFromLocalStorage(taskText);
-        };
-
-        li.appendChild(removeBtn);
-        taskList.appendChild(li);
-
-        if (save) {
-            saveToLocalStorage(taskText);
-        }
-
-        taskInput.value = "";
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
     }
+
+    const li = document.createElement('li');
+    li.textContent = taskText;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add('remove-btn'); // ✅ استخدام classList.add
+
+    removeBtn.onclick = function () {
+        taskList.removeChild(li);
+        removeFromLocalStorage(taskText);
+    };
+
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+
+    if (save) {
+        saveToLocalStorage(taskText);
+    }
+
+    taskInput.value = "";
+}
 
     // حفظ مهمة في Local Storage
     function saveToLocalStorage(taskText) {
@@ -65,3 +65,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // تحميل المهام عند فتح الصفحة
     loadTasks();
 });
+
